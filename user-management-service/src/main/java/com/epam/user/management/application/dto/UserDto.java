@@ -1,8 +1,9 @@
 package com.epam.user.management.application.dto;
 
-
 import com.epam.user.management.application.constants.Role;
-import jakarta.validation.constraints.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,134 +12,109 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class UserDto {
-
-    @NotNull(message = "Id cannot be null")
     private int id;
-
-
-    @NotBlank
-    @Size(min = 5, max = 20 , message = "can contain 5 - 20 characters")
-    @Pattern(regexp = "[a-zA-Z]+", message = "must contains only alphabets")
-    private String first_name;
-
-    @NotBlank
-    @Size(min = 5, max = 20 , message = "can contain 5 - 20 characters")
-    @Pattern(regexp = "[a-zA-Z]+", message = "must contains only alphabets")
-    private String last_name;
-
-    @NotNull(message = "Age is mandatory")
-    @Positive(message = "Age cannot be negative")
-    private int age;
-
-    @NotBlank
-    private String gender;
-
-    @Pattern(regexp = "^\\+?[\\d\\s\\-()]{7,15}$", message = "Invalid phone number format")
-    private String phone_number;
-
-    @NotBlank
-    @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$\n",message = "Invalid email format")
-    private String email;
-
-    @NotBlank
-    @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\n",message = "Password not valid")
-    private String password;
-
-    @NotNull
+    private String firstName,lastName;
+    private String gender,email,password;
     private Role role;
+    private String imageUrl;
+    private String city;
+    private String country;
 
-
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    @NotNull(message = "Id cannot be null")
     public int getId() {
         return id;
     }
 
-    public void setId(@NotNull(message = "Id cannot be null") int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public @NotBlank @Size(min = 5, max = 20, message = "can contain 5 - 20 characters") @Pattern(regexp = "[a-zA-Z]+", message = "must contains only alphabets") String getFirst_name() {
-        return first_name;
+
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(@NotBlank @Size(min = 5, max = 20, message = "can contain 5 - 20 characters") @Pattern(regexp = "[a-zA-Z]+", message = "must contains only alphabets") String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public @NotBlank @Size(min = 5, max = 20, message = "can contain 5 - 20 characters") @Pattern(regexp = "[a-zA-Z]+", message = "must contains only alphabets") String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(@NotBlank @Size(min = 5, max = 20, message = "can contain 5 - 20 characters") @Pattern(regexp = "[a-zA-Z]+", message = "must contains only alphabets") String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    @NotNull(message = "Age is mandatory")
-    @Positive(message = "Age cannot be negative")
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(@NotNull(message = "Age is mandatory") @Positive(message = "Age cannot be negative") int age) {
-        this.age = age;
-    }
-
-    public @NotBlank String getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(@NotBlank String gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
-    public @Pattern(regexp = "^\\+?[\\d\\s\\-()]{7,15}$", message = "Invalid phone number format") String getPhone_number() {
-        return phone_number;
-    }
-
-    public void setPhone_number(@Pattern(regexp = "^\\+?[\\d\\s\\-()]{7,15}$", message = "Invalid phone number format") String phone_number) {
-        this.phone_number = phone_number;
-    }
-
-    public @NotBlank @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$\n", message = "Invalid email format") String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public void setEmail(@NotBlank @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$\n", message = "Invalid email format") String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public @NotBlank @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\n", message = "Password not valid") String getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(@NotBlank @Pattern(regexp = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$\n", message = "Password not valid") String password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public @NotNull Role getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(@NotNull Role role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public String getCity() {
+        return city;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "id=" + id +
+                ", first_name='" + firstName + '\'' +
+                ", last_name='" + lastName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                '}';
     }
 }

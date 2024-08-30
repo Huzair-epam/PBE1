@@ -4,6 +4,7 @@ import com.epam.user.management.application.constants.Role;
 import com.epam.user.management.application.dao.UserDAO;
 import com.epam.user.management.application.dto.UserDto;
 import com.epam.user.management.application.entity.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,31 +20,19 @@ public class Userimp implements UserService{
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Override
-    public User register(UserDto user){
-        if (userDAO.existsByEmail(user.getEmail())) {
-            throw new IllegalStateException("Email already taken");
+    public <T> T register(UserDto userdto){
+        if (userDAO.existsByEmail(userdto.getEmail())) {
+            throw new IllegalStateException("Email already Exists");
         }
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        System.out.println(encodedPassword);
-
-        // Determine role
-        Role role = Role.USER;
-        if ("ADMIN".equals(user.getRole())) {
-            role = Role.ADMIN;
-        }
-
-        User user1 = new User();
-        user1.setFirst_name(user.getFirst_name());
-        user1.setLast_name(user.getLast_name());
-        user1.setAge(user.getAge());
-        user1.setEmail(user.getEmail());
-        user1.setGender(user.getGender());
-        user1.setPhone_number(user.getPhone_number());
-        user1.setPassword(encodedPassword);
-        user1.setRole(role);
-
-        return userDAO.save(user1);
+        String encodedPassword = passwordEncoder.encode(userdto.getPassword());
+        User user=objectMapper.convertValue(userdto, User.class);
+        user.setPassword(encodedPassword);
+        userDAO.save(user);
+        return (T) "Registration Successfull";
     }
 
     @Override
